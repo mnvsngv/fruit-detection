@@ -20,16 +20,21 @@ from keras import backend as K
 
 def cnn(img, rects):
     try:
+        print("Loading data...")
         model_cnn = keras.models.load_model("trained_cnn")
         id_to_labels = np.load("labels.npy").item()
+        id_to_labels = {i: v for i, v in enumerate(np.unique(labels))}
+        print(id_to_labels)
     except OSError:
+        print("Training!")
         # Read Training dataset
         fruit_images = []
         labels = []
-        for fruit_dir_path in glob.glob('.\\data\\fruits-360\\Training\\*'):
+        for fruit_dir_path in glob.glob('.' + os.sep +
+                                        'fruits-360' + os.sep + 'Training' +
+                                        os.sep + '*'):
             print('in')
-            fruit_label = fruit_dir_path.split("/")[-1]
-            fruit_label = fruit_dir_path.split("\\")[-1]
+            fruit_label = fruit_dir_path.split(os.sep)[-1]
             for image_path in glob.glob(os.path.join(fruit_dir_path, "*.jpg")):
                 image = cv2.imread(image_path, cv2.IMREAD_COLOR)
 
@@ -58,9 +63,9 @@ def cnn(img, rects):
         # Read Testing dataset
         test_fruit_images = []
         test_labels = []
-        for fruit_dir_path in glob.glob('.\\data\\fruits-360\\Test\\*'):
-            fruit_label = fruit_dir_path.split("/")[-1]
-            fruit_label = fruit_dir_path.split("\\")[-1]
+        dir = '.' + os.sep + 'fruits-360' + os.sep + 'Test' + os.sep + '*'
+        for fruit_dir_path in glob.glob(dir):
+            fruit_label = fruit_dir_path.split(os.sep)[-1]
             for image_path in glob.glob(os.path.join(fruit_dir_path, "*.jpg")):
                 image = cv2.imread(image_path, cv2.IMREAD_COLOR)
 

@@ -7,7 +7,11 @@ from images.segmentation import watershed, selective_search
 from networks.cnn import cnn
 
 if __name__ == "__main__":
-    image_path = './data/test/fruits1.jpg'
+    image_path = './data/test/fruits3.jpg'
     img = cv.imread(image_path)
-    rects = selective_search(image_path)
+    # resize image
+    newHeight = 500
+    newWidth = int(img.shape[1] * 200 / img.shape[0])
+    img = cv.resize(img, (newWidth, newHeight))
+    rects = selective_search(img)
     model = cnn(img, rects)

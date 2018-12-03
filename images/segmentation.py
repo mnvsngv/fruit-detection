@@ -34,17 +34,11 @@ def watershed():
     return img
 
 
-def selective_search(img_path, type='q'):
+def selective_search(im, type='f'):
     # speed-up using multithreads
+    print("Selective Search")
     cv.setUseOptimized(True)
     cv.setNumThreads(4)
-
-    # read image
-    im = cv.imread(img_path)
-    # resize image
-    newHeight = 200
-    # newWidth = int(im.shape[1] * 200 / im.shape[0])
-    # im = cv.resize(im, (newWidth, newHeight))
 
     # create Selective Search Segmentation Object using default parameters
     ss = cv.ximgproc.segmentation.createSelectiveSearchSegmentation()
@@ -60,6 +54,7 @@ def selective_search(img_path, type='q'):
     elif (type == 'q'):
         ss.switchToSelectiveSearchQuality()
 
+    print("Searching")
     # run selective search segmentation on input image
     rects = ss.process()
 
