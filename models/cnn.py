@@ -23,14 +23,13 @@ def cnn(img, rects):
         print("Loading data...")
         model_cnn = keras.models.load_model("trained_cnn")
         id_to_labels = np.load("labels.npy").item()
-        id_to_labels = {i: v for i, v in enumerate(np.unique(labels))}
         print(id_to_labels)
     except OSError:
         print("Training!")
         # Read Training dataset
         fruit_images = []
         labels = []
-        for fruit_dir_path in glob.glob('.' + os.sep +
+        for fruit_dir_path in glob.glob('.' + os.sep + 'data' + os.sep +
                                         'fruits-360' + os.sep + 'Training' +
                                         os.sep + '*'):
             print('in')
@@ -63,7 +62,8 @@ def cnn(img, rects):
         # Read Testing dataset
         test_fruit_images = []
         test_labels = []
-        dir = '.' + os.sep + 'fruits-360' + os.sep + 'Test' + os.sep + '*'
+        dir = '.' + os.sep + 'data' + os.sep + \
+              'fruits-360' + os.sep + 'Test' + os.sep + '*'
         for fruit_dir_path in glob.glob(dir):
             fruit_label = fruit_dir_path.split(os.sep)[-1]
             for image_path in glob.glob(os.path.join(fruit_dir_path, "*.jpg")):
