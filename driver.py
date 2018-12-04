@@ -7,10 +7,10 @@ import numpy as np
 
 from fruits_db import FruitsDb
 from images.segmentation import watershed, selective_search
-from models import dense, svm
+from models import dense, svm, convolutional
 from models.cnn import cnn
 
-FIGSIZE = (50, 50)
+FIGSIZE = (45, 45, 3)
 NUM_FRUITS = 81
 
 if __name__ == "__main__":
@@ -24,15 +24,26 @@ if __name__ == "__main__":
     # model = cnn(img, rects)
 
     db_base_dir = '.' + os.sep + 'data' + os.sep + 'fruits-360'
-    fruits_db = FruitsDb(db_base_dir, size=FIGSIZE, rotate=True)
+    fruits_db = FruitsDb(db_base_dir, size=FIGSIZE, rotate=False)
     training_samples, training_labels = fruits_db.get_training_data()
     test_samples, test_labels = fruits_db.get_test_data()
 
-    train_dense = True
-    train_svm = False
+    train_cnn = False
+    train_dense = False
+    train_svm = True
+
+    if train_cnn:
+        trained_model = convolutional.train_convolutional(0, FIGSIZE, NUM_FRUITS,
+                                                          training_samples, training_labels)
+
+        loss, accuracy = dense.evaluate_model(trained_model, test_samples,
+                                              test_labels)
+        print("Loss: " + str(loss))
+        print("Accuracy: " + str(accuracy * 100) + "%")
 
     if train_dense:
-        trained_model = dense.train_dense(0, FIGSIZE, NUM_FRUITS,
+        num_inputs = FIGSIZE[0] * FIGSIZE[1] * FIGSIZE[2]
+        trained_model = dense.train_dense(0, num_inputs, NUM_FRUITS,
                                           training_samples, training_labels)
 
         loss, accuracy = dense.evaluate_model(trained_model, test_samples,

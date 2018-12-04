@@ -33,6 +33,27 @@ def get_model(model_num, num_inputs, num_outputs):
             Dense(num_outputs, activation='softmax',
                   kernel_regularizer=regularizers.l2()),
         ],
+        1: [
+            Flatten(),
+            Dense(num_inputs, activation='relu', kernel_regularizer=regularizers.l2()),
+            Dense(100, activation='relu', kernel_regularizer=regularizers.l2()),
+            Dense(100, activation='relu', kernel_regularizer=regularizers.l2()),
+            Dense(100, activation='relu', kernel_regularizer=regularizers.l2()),
+            Dense(100, activation='relu', kernel_regularizer=regularizers.l2()),
+            Dense(num_outputs, activation='softmax',
+                  kernel_regularizer=regularizers.l2()),
+        ],
+        2: [
+            Flatten(),
+            Dense(num_inputs, activation='relu', kernel_regularizer=regularizers.l2()),
+            Dense(100, activation='relu', kernel_regularizer=regularizers.l2()),
+            Dense(100, activation='relu', kernel_regularizer=regularizers.l2()),
+            Dense(100, activation='relu', kernel_regularizer=regularizers.l2()),
+            Dense(100, activation='relu', kernel_regularizer=regularizers.l2()),
+            Dense(100, activation='relu', kernel_regularizer=regularizers.l2()),
+            Dense(num_outputs, activation='softmax',
+                  kernel_regularizer=regularizers.l2()),
+        ],
     }
     model = Sequential()
     for layer in model_dictionary[model_num]:

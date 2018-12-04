@@ -19,10 +19,10 @@ class FruitsDb:
     def get_training_data(self):
         if not self.rotate:
             image_cache = self.cache + os.sep + "training_images.npy"
-            label_cache = self.cache + os.sep + "training_images.npy"
+            label_cache = self.cache + os.sep + "training_labels.npy"
         else:
             image_cache = self.cache + os.sep + "training_images_rotated.npy"
-            label_cache = self.cache + os.sep + "training_images_rotated.npy"
+            label_cache = self.cache + os.sep + "training_labels_rotated.npy"
         try:
             print("Trying to load from cache...")
             images = np.load(image_cache)
@@ -38,10 +38,10 @@ class FruitsDb:
     def get_test_data(self):
         if not self.rotate:
             image_cache = self.cache + os.sep + "test_images.npy"
-            label_cache = self.cache + os.sep + "test_images.npy"
+            label_cache = self.cache + os.sep + "test_labels.npy"
         else:
             image_cache = self.cache + os.sep + "test_images_rotated.npy"
-            label_cache = self.cache + os.sep + "test_images_rotated.npy"
+            label_cache = self.cache + os.sep + "test_labels_rotated.npy"
         try:
             print("Trying to load from cache...")
             images = np.load(image_cache)
