@@ -69,7 +69,7 @@ class FruitsDb:
             for image_path in glob.glob(os.path.join(fruit_dir_path, "*.jpg")):
                 image = cv2.imread(image_path, cv2.IMREAD_COLOR)
 
-                image = cv2.resize(image, self.size)
+                image = cv2.resize(image, (50,50))
                 image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
                 fruit_images.append(image)
@@ -81,7 +81,7 @@ class FruitsDb:
                                                        dtype=np.int8))
                         labels.append(fruit_label)
 
-        fruit_images = np.vstack(fruit_images)
+        fruit_images = np.stack(fruit_images)
 
         # Normalize values between 0 and 1
         fruit_images = fruit_images / 255

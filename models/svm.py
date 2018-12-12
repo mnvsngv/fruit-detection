@@ -33,9 +33,8 @@ def train_svm(x_train, y_train):
     else:
         model = SVC()
         print("Preprocessing data...")
-        x_train = [cv.cvtColor(img.astype('float32'),
-                               cv.COLOR_BGR2GRAY).flatten()
-                   for img in x_train]
+        print(x_train[0].shape)
+        x_train = [cv.cvtColor(img.astype('float32'),cv.COLOR_BGR2GRAY).flatten() for img in x_train]
         print("Training model...")
         model.fit(x_train, y_train)
         print("Done!")
@@ -45,6 +44,7 @@ def train_svm(x_train, y_train):
 
 def evaluate_model(trained_model, x_test, y_test):
     print("Preprocessing data...")
+    
     x_test = [cv.cvtColor(img.astype('float32'),
                           cv.COLOR_BGR2GRAY).flatten()
               for img in x_test]
