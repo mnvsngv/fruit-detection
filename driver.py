@@ -29,8 +29,8 @@ if __name__ == "__main__":
     test_samples, test_labels = fruits_db.get_test_data()
 
     train_cnn = False
-    train_dense = False
-    train_svm = True
+    train_dense = True
+    train_svm = False
 
     if train_cnn:
         trained_model = convolutional.train_convolutional(0, FIGSIZE, NUM_FRUITS,
@@ -43,13 +43,17 @@ if __name__ == "__main__":
 
     if train_dense:
         num_inputs = FIGSIZE[0] * FIGSIZE[1] * FIGSIZE[2]
-        trained_model = dense.train_dense(0, num_inputs, NUM_FRUITS,
-                                          training_samples, training_labels)
 
-        loss, accuracy = dense.evaluate_model(trained_model, test_samples,
-                                              test_labels)
-        print("Loss: " + str(loss))
-        print("Accuracy: " + str(accuracy * 100) + "%")
+        for i in range(0, 3):
+            trained_model = dense.train_dense(i, num_inputs, NUM_FRUITS,
+                                              training_samples, training_labels)
+
+            loss, accuracy = dense.evaluate_model(trained_model, test_samples,
+                                                  test_labels)
+            print("Model " + str(i) + " results:")
+            print("Loss: " + str(loss))
+            print("Accuracy: " + str(accuracy * 100) + "%")
+
 
     if train_svm:
         trained_model = svm.train_svm(training_samples, training_labels)
