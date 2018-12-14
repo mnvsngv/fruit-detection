@@ -69,7 +69,7 @@ class FruitsDb:
             for image_path in glob.glob(os.path.join(fruit_dir_path, "*.jpg")):
                 image = cv2.imread(image_path, cv2.IMREAD_COLOR)
 
-                image = cv2.resize(image, (50,50))
+                image = cv2.resize(image, self.size[0], self.size[1])
                 image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
                 fruit_images.append(image)
