@@ -1,21 +1,11 @@
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-
-import tensorflow as tf
-import keras
 import glob
-import cv2
-
 import os
 
-from keras.models import Sequential
+import cv2
+import keras
+import numpy as np
 from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPooling2D
-from keras.layers import LSTM, Input, TimeDistributed
-from keras.models import Model
-from keras.optimizers import RMSprop, SGD
-
-from keras import backend as K
+from keras.models import Sequential
 
 
 def cnn(img, rects):

@@ -1,56 +1,43 @@
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-
-import tensorflow as tf
-import keras
-import glob
-import cv2
 import os
 
-from sklearn.model_selection import StratifiedKFold
-
+import keras
+from keras import regularizers, metrics
+from keras.layers import Dense, Flatten
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPooling2D
-from keras.layers import LSTM, Input, TimeDistributed
-from keras.models import Model
-from keras.optimizers import RMSprop, SGD
-
-from keras import backend as K, regularizers, metrics
-
 
 CACHE_DIR = "cache" + os.sep
 
 
 def get_model(model_num, num_inputs, num_outputs):
+    # List of models
     model_dictionary = {
         0: [
             Flatten(),
             Dense(num_inputs, activation='relu', kernel_regularizer=regularizers.l2()),
-            Dense(100, activation='relu', kernel_regularizer=regularizers.l2()),
-            Dense(100, activation='relu', kernel_regularizer=regularizers.l2()),
-            Dense(100, activation='relu', kernel_regularizer=regularizers.l2()),
+            Dense(90, activation='relu', kernel_regularizer=regularizers.l2()),
+            Dense(90, activation='relu', kernel_regularizer=regularizers.l2()),
+            Dense(90, activation='relu', kernel_regularizer=regularizers.l2()),
             Dense(num_outputs, activation='softmax',
                   kernel_regularizer=regularizers.l2()),
         ],
         1: [
             Flatten(),
             Dense(num_inputs, activation='relu', kernel_regularizer=regularizers.l2()),
-            Dense(100, activation='relu', kernel_regularizer=regularizers.l2()),
-            Dense(100, activation='relu', kernel_regularizer=regularizers.l2()),
-            Dense(100, activation='relu', kernel_regularizer=regularizers.l2()),
-            Dense(100, activation='relu', kernel_regularizer=regularizers.l2()),
+            Dense(90, activation='relu', kernel_regularizer=regularizers.l2()),
+            Dense(90, activation='relu', kernel_regularizer=regularizers.l2()),
+            Dense(90, activation='relu', kernel_regularizer=regularizers.l2()),
+            Dense(90, activation='relu', kernel_regularizer=regularizers.l2()),
             Dense(num_outputs, activation='softmax',
                   kernel_regularizer=regularizers.l2()),
         ],
         2: [
             Flatten(),
             Dense(num_inputs, activation='relu', kernel_regularizer=regularizers.l2()),
-            Dense(100, activation='relu', kernel_regularizer=regularizers.l2()),
-            Dense(100, activation='relu', kernel_regularizer=regularizers.l2()),
-            Dense(100, activation='relu', kernel_regularizer=regularizers.l2()),
-            Dense(100, activation='relu', kernel_regularizer=regularizers.l2()),
-            Dense(100, activation='relu', kernel_regularizer=regularizers.l2()),
+            Dense(90, activation='relu', kernel_regularizer=regularizers.l2()),
+            Dense(90, activation='relu', kernel_regularizer=regularizers.l2()),
+            Dense(90, activation='relu', kernel_regularizer=regularizers.l2()),
+            Dense(90, activation='relu', kernel_regularizer=regularizers.l2()),
+            Dense(90, activation='relu', kernel_regularizer=regularizers.l2()),
             Dense(num_outputs, activation='softmax',
                   kernel_regularizer=regularizers.l2()),
         ],
@@ -69,7 +56,8 @@ def train_dense(model_num, num_inputs, num_outputs, x_train, y_train,
                 epochs=10, batch_size=128, verbose=0):
     try:
         print("Loading model...")
-        trained_model = keras.models.load_model("trained_dense_" +
+        trained_model = keras.models.load_model(CACHE_DIR +
+                                                os.sep + "trained_dense_" +
                                                 str(model_num))
     except OSError:
         print("Training!")

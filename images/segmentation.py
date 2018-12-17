@@ -1,13 +1,12 @@
-import numpy as np
 import cv2 as cv
-from matplotlib import pyplot as plt
-import sys
+import numpy as np
 
 
 def watershed():
-    img = cv.imread('./data/test/fruits2.png')
+    img = cv.imread('.\\data\\test\\fruits1.jpg')
     gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-    ret, thresh = cv.threshold(gray, 0, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)
+    ret, thresh = cv.threshold(gray, 0, 255,
+                               cv.THRESH_BINARY_INV + cv.THRESH_OTSU)
 
     # noise removal
     kernel = np.ones((3, 3), np.uint8)
@@ -16,7 +15,8 @@ def watershed():
     sure_bg = cv.dilate(opening, kernel, iterations=3)
     # Finding sure foreground area
     dist_transform = cv.distanceTransform(opening, cv.DIST_L2, 5)
-    ret, sure_fg = cv.threshold(dist_transform, 0.7 * dist_transform.max(), 255, 0)
+    ret, sure_fg = cv.threshold(dist_transform, 0.7 * dist_transform.max(),
+                                255, 0)
     # Finding unknown region
     sure_fg = np.uint8(sure_fg)
     unknown = cv.subtract(sure_bg, sure_fg)
@@ -35,27 +35,24 @@ def watershed():
 
 
 def selective_search(im, type='f'):
-    # speed-up using multithreads
-    print("Selective Search")
+    # Multithread the search for better performance
     cv.setUseOptimized(True)
     cv.setNumThreads(4)
 
-    # create Selective Search Segmentation Object using default parameters
     ss = cv.ximgproc.segmentation.createSelectiveSearchSegmentation()
-
-    # set input image on which we will run segmentation
     ss.setBaseImage(im)
 
-    # Switch to fast but low recall Selective Search method
-    if (type == 'f'):
+    # Fast speed
+    if type == 'f':
         ss.switchToSelectiveSearchFast()
 
-    # Switch to high recall but slow Selective Search method
-    elif (type == 'q'):
+    # High quality
+    if type == 'q':
         ss.switchToSelectiveSearchQuality()
 
-    print("Searching")
-    # run selective search segmentation on input image
+    print("Searching...")
+    # Run selective search
     rects = ss.process()
 
-    return rects[0:13]
+    # Return the regions as a list of rectangle co-ordinates
+    return rects
